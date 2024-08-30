@@ -1,0 +1,104 @@
+const crimesDiv = document.getElementById('crimes');
+const resultadoDiv = document.getElementById('resultado');
+const form = document.getElementById('form-calculo');
+
+// Função para criar um checkbox para cada crime com pena e multa
+function criarCrime(categoria, nome, pena, multa) {
+    if (nome.trim() === '') return; // Ignorar crimes sem nome
+
+    let categoriaDiv = document.getElementById(categoria);
+    if (!categoriaDiv) {
+        categoriaDiv = document.createElement('div');
+        categoriaDiv.id = categoria;
+        categoriaDiv.className = 'category';
+        categoriaDiv.innerHTML = `<h3>${categoria}</h3>`;
+        crimesDiv.appendChild(categoriaDiv);
+    }
+
+    const div = document.createElement('div');
+    div.innerHTML = `<input type="checkbox" name="${nome}" data-pena="${pena}" data-multa="${multa}"> ${nome} (${pena} meses, R$${multa} de multa)`;
+    categoriaDiv.appendChild(div);
+}
+
+// Exemplo de categorias e crimes com pena e multa
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.17 - Invasão de Propriedade', 5, 500);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.18 - Abuso de Autoridade', 20, 5000);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.19 - Uso de Máscara', 0, 600);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.20 - Uso de Equipamentos Restritos', 30, 1000);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.21 - Omissão de Socorro', 10, 1000);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.22 - Tentativa de Fuga', 5, 1500);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.23 - Desacato 01', 3, 500);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.24 - Desacato 02', 6, 1000);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.25 - Desacato 03', 9, 1500);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.26 - Resistência a Prisão', 5, 2400);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.27 - Réu Reincidente', 10, 4000);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.28 - Cúmplice', 5, 2500);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.29 - Obstrução de Justiça', 15, 1500);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.30 - Ocultação de Provas', 20, 10000);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.31 - Vadiagem', 2, 2000);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.32 - Prevaricação', 10, 3000);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.33 - Perturbação do Sossego Alheio', 8, 100);
+criarCrime('PROPRIEDADE DO GOVERNO', 'Art. 6.34 - Calúnia, Injúria ou Difamação', 20, 10000);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.1 - Condução Imprudente', 5, 5500);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.2 - Dirigir na Contra Mão', 0, 500);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.3 - Alta Velocidade', 0, 5300);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.4 - Poluição Sonora', 0, 1000);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.5 - Corridas Ilegais', 8, 8700);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.6 - Uso Excessivo de Insulfilm', 0, 600);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.7 - Veículo Muito Danificado', 0, 500);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.8 - Veiculo Ilegalmente Estacionado', 0, 600);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.9 - Não Ceder Passagem a Viaturas', 0, 900);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.10 - Impedir o Fluxo do Tráfego', 0, 500);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.11 - Dano a Patrimônio Público', 0, 1500);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.11 - Dano a Patrimônio Público (veículos)', 20, 15000);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.12 - Pilotar moto sem capacete', 0, 1000);
+criarCrime('CRIMES DE TRÂNSITO', 'Art. 7.13 - Pilotar moto sem tênis', 0, 400);
+
+// Adicione mais crimes e categorias aqui se necessário
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const nome = document.getElementById('nome').value;
+    const id = document.getElementById('id').value;
+    const advogado = document.querySelector('input[name="advogado"]:checked').value;
+    const crimesSelecionados = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    // Cálculo da pena total e multa total
+    let penaTotal = 0;
+    let multaTotal = 0;
+    crimesSelecionados.forEach(crime => {
+        penaTotal += parseInt(crime.getAttribute('data-pena'), 10);
+        multaTotal += parseInt(crime.getAttribute('data-multa'), 10);
+    });
+
+    // Aplicar desconto de 15% se teve advogado
+    if (advogado === 'sim') {
+        penaTotal *= 0.85;
+        multaTotal *= 0.85;
+    }
+
+    // Criar o relatório
+    const crimesString = Array.from(crimesSelecionados).map(crime => crime.name).join(', ');
+    const resultado = `
+        🦹‍♂ Nome do Acusado: ${nome}
+        🆔 ID do Acusado: ${id}
+        ⚖ Teve Advogado: ${advogado === 'sim' ? 'Sim' : 'Não'}
+        ⏲ Pena Total: ${penaTotal.toFixed(2)} meses
+        💸 Multa Total: R$${multaTotal.toFixed(2)}
+        ⚖ Crimes Cometidos: ${crimesString}
+    `;
+    resultadoDiv.innerHTML = `
+        <h2>Resultado</h2>
+        <p>${resultado.replace(/\n/g, '<br>')}</p>
+        <button class="copy-btn" onclick="copiarResultado()">Copiar Resultado</button>
+    `;
+});
+
+// Função para copiar o resultado
+function copiarResultado() {
+    const text = resultadoDiv.innerText;
+    navigator.clipboard.writeText(text)
+        .then(() => alert('Resultado copiado!'))
+        .catch(err => alert('Erro ao copiar o resultado'));
+}

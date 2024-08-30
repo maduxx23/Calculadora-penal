@@ -1,0 +1,105 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Pena Criminal FiveM</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .form-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .crimes-container {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        #crimes div {
+            margin-bottom: 10px;
+        }
+
+        #resultado {
+            border: 1px solid #fc0505;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .category {
+            margin-bottom: 20px;
+        }
+
+        .category h3 {
+            margin-bottom: 10px;
+        }
+
+        /* Estilo do botão de copiar */
+        .copy-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Pena Criminal</h1>
+    <img src="https://media.discordapp.net/attachments/1278087563910975609/1278087719096025146/Brown_Elegant_Initial_Letter_Fashion_Brand_Logo_6.png?ex=66d22a71&is=66d0d8f1&hm=b7ac57a55ad367369f78253f057f557e755053079c298667786a9ebcbdb569bb&=&format=webp&quality=lossless" alt="Imagem da Calculadora" width="500" height="500">
+
+    <div class="container">
+        <div class="crimes-container">
+            <h2>Selecione os Crimes:</h2>
+            <div id="crimes">
+                <!-- Espaços para categorias e crimes serão preenchidos pelo JavaScript -->
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="form-calculo">
+                <label for="nome">Nome do Acusado:</label>
+                <input type="text" id="nome" name="nome" required>
+
+                <label for="id">ID do Acusado:</label>
+                <input type="text" id="id" name="id" required>
+
+                <label>Teve Advogado?</label>
+                <input type="radio" id="advogado-sim" name="advogado" value="sim">
+                <label for="advogado-sim">Sim</label>
+                <input type="radio" id="advogado-nao" name="advogado" value="nao" checked>
+                <label for="advogado-nao">Não</label>
+
+                <button type="submit">Calcular Pena</button>
+            </form>
+
+            <div id="resultado"></div>
+        </div>
+    </div>
+
+    <!-- Link para o arquivo JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
